@@ -7,9 +7,9 @@ class Car{
     
 
     this.speed = 0;
-    this.acceleration = 0.2;
+    this.acceleration = 0.75;
     this.maxSpeed = 3.5;
-    this.friction=0.075;
+    this.friction=0.05;
     this.angle = 0;
     
 
@@ -18,9 +18,9 @@ class Car{
     this.controls = new Controls()
     }
 
-update(){
+update(roadBorders){
     this.#move();
-    this.sensor.update()
+    this.sensor.update(roadBorders)
 }
 
 #move(){
