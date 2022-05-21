@@ -1,5 +1,5 @@
 const canvas = document.getElementById('myCanvas')
-canvas.width = 200 
+canvas.width = 250 
 
 //get canvas context
 const ctx = canvas.getContext('2d')
