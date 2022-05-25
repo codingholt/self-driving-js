@@ -4,7 +4,7 @@ class Sensor{
         
         this.rayCount = 15;
         this.rayLength = 150;
-        this.raySpread = Math.PI/2;
+        this.raySpread = Math.PI/1.5;
 
         this.rays = [];
         this.readings=[];
