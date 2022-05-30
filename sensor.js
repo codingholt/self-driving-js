@@ -9,7 +9,7 @@ class Sensor{
         this.rays = [];
         this.readings=[];
     }
-
+    
     update(roadBorders, traffic){
         this.#castRays();
         this.readings=[];
@@ -22,7 +22,9 @@ class Sensor{
                 )
             )
         }
+
     }
+
 
     #getReading(ray, roadBorders, traffic){
         let touches = [];

@@ -13,8 +13,12 @@ class Car{
     this.angle = 0;
     this.damaged = false;
     if(controltype!='DUMMY'){
-        this.sensor = new Sensor(this)
+        this.sensor = new Sensor(this);
+        this.brain = new NeuralNetwork(
+            [this.sensor.rayCount, 6, 4]
+        )
     }
+
 
 
     
@@ -28,7 +32,13 @@ update(roadBorders, traffic){
         this.damaged = this.#assesDamage(roadBorders, traffic);
     }
     if(this.sensor){
-         this.sensor.update(roadBorders, traffic)
+         this.sensor.update(roadBorders, traffic);
+         const offsets = this.sensor.readings.map(
+             s=>s==null ? 0 : 1-s.offset
+         );
+         console.log(offsets)
+         const outputs = NeuralNetwork.feedForward(offsets,this.brain);
+         console.log(outputs)
     }
 };
 

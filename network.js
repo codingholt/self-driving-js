@@ -1,3 +1,27 @@
+class NeuralNetwork{
+    constructor(neuronCount){
+        this.levels = [];
+        for(let i= 0; i< neuronCount.length-1; i++){
+            console.log(neuronCount)
+            this.levels.push( new Level(
+                neuronCount[i], neuronCount[i+1]
+            ))
+        }
+    }
+    static feedForward(givenInputs, network){
+        let outputs= Level.feedForward(
+            givenInputs, network.levels[0]
+        )
+        for (let i =1; i<network.levels.length; i++){
+            outputs = Level.feedForward(
+                outputs, network.levels[i]
+            )
+
+        }
+        return outputs;
+    }
+}
+
 class Level{
     constructor(inputCount, outputCount){
         this.inputs = new Array(inputCount);
@@ -9,13 +33,15 @@ class Level{
             this.weights[i] = new Array(outputCount);
         }
 
-        Level.#randomize(this)
+        Level.#randomize(this);
     }
 
+
     static #randomize(level){
+
         for(let i=0; i<level.inputs.length; i++){
-            for(let j= 0 ; j<level.outputs.length;j++){
-                level.weights[i][j] = Math.random()*2-1
+            for(let j=0; j<level.outputs.length;j++){
+                level.weights[i][j] = Math.random()*2-1;
             }
         }
         
@@ -39,6 +65,7 @@ class Level{
                 level.outputs[i]=0;
             }
         }
-
+        return level.outputs;
     }
+    
 }
