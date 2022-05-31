@@ -40,7 +40,7 @@ update(roadBorders, traffic){
          );
 
          const outputs = NeuralNetwork.feedForward(offsets,this.brain);
-
+ 
          if(this.useBrain){
             this.controls.forward = outputs[0];
             this.controls.left = outputs[1];
