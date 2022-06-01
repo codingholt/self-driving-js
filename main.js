@@ -9,7 +9,7 @@ const networkCtx = networkCanvas.getContext('2d')
 
 const road = new Road(carCanvas.width/2, carCanvas.width*0.9)
 //make car
-const car = new Car(road.getLaneCenter(1),500,30,50, 'AI');
+const car = new Car(road.getLaneCenter(1),500,30,50, 'KEYS');
 const traffic = [ new Car(road.getLaneCenter(1),-100,30,50, 'DUMMY',2),  new Car(road.getLaneCenter(0),-50,30,50, 'DUMMY',2),new Car(road.getLaneCenter(2), 250 ,30,50, 'DUMMY',2), new Car(road.getLaneCenter(2),-50,30,50, 'DUMMY',2)]
 
 animate()

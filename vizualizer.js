@@ -6,18 +6,30 @@ class Visualizer{
         const width = ctx.canvas.width - margin *2;
         const height = ctx.canvas.width - margin *2;
 
-        Visualizer.drawLevel(
-            ctx, network.levels[0], 
-            left,top,
-            width,height
-            );
+
+        const levelHeight = height /network.levels.length;
+        
+        for(let i = 0; i< network.levels.length; i++){
+            const levelTop = top+
+                lerp(
+                    height-levelHeight,
+                    0,
+                    network.levels.length == 1 ? 
+                        0.5: i/(network.levels.length-1)
+                )
+                Visualizer.drawLevel(
+                    ctx, network.levels[i], 
+                    left, levelTop,
+                    width, levelHeight
+                    );
+        }
     }
 
     static drawLevel(ctx, level, left, top, width, height){
         const right = left + width;
         const bottom = top + height;
-        console.log(level)
-        const {inputs, outputs, weights} = level;
+
+        const {inputs, outputs, weights, biases} = level;
         const nodeRadius = 18;
         for(let i =0; i<inputs.length;i++){
             for(let j =0; j<outputs.length;j++){
@@ -30,20 +42,20 @@ class Visualizer{
                 )
                 ctx.lineWidth=2;
 
-                const value =  weights[i][j];
-                const alpha = Math.abs(value);
-                const R = value<0 ? 0: 255;
-                const G = R;
-                const B = value>0?0:255;
-                ctx.strokeStyle = "rgba("+R+","+G+","+B+","+alpha+")";
+       
+                ctx.strokeStyle = getRGBA(weights[i][j]);
                 ctx.stroke();
             }
         }
-        for(let i = 0;  i< level.inputs.length; i++){
+        for(let i = 0;  i< inputs.length; i++){
             const x  = Visualizer.#getNodeX(inputs, i, left, right)
             ctx.beginPath();
             ctx.arc(x, bottom,nodeRadius,0,Math.PI*2);
-            ctx.fillStyle = 'white';
+            ctx.fillStyle = 'black';
+            ctx.fill()
+            ctx.beginPath();
+            ctx.arc(x, bottom,nodeRadius*0.6,0,Math.PI*2);
+            ctx.fillStyle = getRGBA(inputs);
             ctx.fill()
         }
     
@@ -53,8 +65,23 @@ class Visualizer{
             const x  = Visualizer.#getNodeX(outputs, i, left, right)
             ctx.beginPath();
             ctx.arc(x,top,nodeRadius,0,Math.PI*2);
-            ctx.fillStyle = 'white';
-            ctx.fill()
+            ctx.fillStyle = 'black';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(x,top,nodeRadius*0.6,0,Math.PI*2);
+            ctx.fillStyle = getRGBA(outputs[i]);
+            ctx.fill();
+
+            ctx.beginPath()
+            ctx.lineWidth = 2;
+            ctx.arc(x, top, nodeRadius *0.8, 0, Math.PI*2);
+            ctx.strokeStyle = getRGBA(biases[i]);
+            ctx.setLineDash([3,3]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.stroke()
         }
 
      
