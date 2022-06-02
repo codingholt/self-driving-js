@@ -9,12 +9,12 @@ const networkCtx = networkCanvas.getContext('2d')
 
 const road = new Road(carCanvas.width/2, carCanvas.width*0.9)
 //make car
-const car = new Car(road.getLaneCenter(1),500,30,50, 'KEYS');
+const car = new Car(road.getLaneCenter(1),500,30,50, 'AI');
 const traffic = [ new Car(road.getLaneCenter(1),-100,30,50, 'DUMMY',2),  new Car(road.getLaneCenter(0),-50,30,50, 'DUMMY',2),new Car(road.getLaneCenter(2), 250 ,30,50, 'DUMMY',2), new Car(road.getLaneCenter(2),-50,30,50, 'DUMMY',2)]
 
 animate()
 
-function animate(){
+function animate(time){
     for(let i=0; i < traffic.length; i++){
         traffic[i].update(road.borders, [])
     }
@@ -34,6 +34,8 @@ function animate(){
     car.draw(carCtx, 'blue');
 
     carCtx.restore();
+
+    networkCtx.lineDashOffset = -time/100;
     Visualizer.drawNetwork(networkCtx, car.brain)
     requestAnimationFrame(animate)
 }
