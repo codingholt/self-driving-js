@@ -28,25 +28,33 @@ function animate(time){
     for(let i = 0; i<cars.length; i++){
         cars[i].update(road.borders, traffic);
     }
+
+    const bestCar  = cars.find(
+        c=>c.y==Math.min(
+            ...cars.map(c=>c.y)
+        )
+    )
     carCanvas.height = window.innerHeight;
     networkCanvas.width = window.innerWidth * 0.5;
 
     networkCanvas.height = window.innerHeight;
     carCtx.save();
-    carCtx.translate(0,-cars[0].y+carCanvas.height*0.7);
+    carCtx.translate(0,-bestCar.y+carCanvas.height*0.7);
 
     road.draw(carCtx);
     for(let i = 0;  i < traffic.length; i++){
         traffic[i].draw(carCtx, 'red')
     }
+    carCtx.globalAlpha=0.2
     for(let i = 0; i<cars.length; i++){
         cars[i].draw(carCtx, 'blue');
     }
-
+    carCtx.globalAlpha=1
+    bestCar.draw(carCtx, 'blue', true);
 
     carCtx.restore();
 
     networkCtx.lineDashOffset = -time/100;
-    Visualizer.drawNetwork(networkCtx, cars[0].brain)
+    Visualizer.drawNetwork(networkCtx, bestCar.brain)
     requestAnimationFrame(animate)
 }

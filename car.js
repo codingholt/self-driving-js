@@ -142,7 +142,7 @@ this.y -= Math.cos(this.angle)*this.speed;
 }
 
 
-draw(ctx, color){
+draw(ctx, color, drawSensor){
     if(this.damaged){
         ctx.fillStyle='gray';
 
@@ -150,15 +150,16 @@ draw(ctx, color){
         ctx.fillStyle= color;
 
     }
+
     ctx.beginPath();
     ctx.moveTo(this.polygon[0].x, this.polygon[0].y)
     for(let i=1; i<this.polygon.length; i++){
         ctx.lineTo(this.polygon[i].x, this.polygon[i].y)
     }
     ctx.fill()
-    if(this.sensor){
+    if(this.sensor && drawSensor){
         this.sensor.draw(ctx)
     }
 }
-
+ 
 }
