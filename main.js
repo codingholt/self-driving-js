@@ -11,9 +11,37 @@ const road = new Road(carCanvas.width/2, carCanvas.width*0.9)
 //make car
 const N = 100;
 const cars = generateCars(N);
-const traffic = [ new Car(road.getLaneCenter(1),-100,30,50, 'DUMMY',2),  new Car(road.getLaneCenter(0),-50,30,50, 'DUMMY',2),new Car(road.getLaneCenter(2), 250 ,30,50, 'DUMMY',2), new Car(road.getLaneCenter(2),-50,30,50, 'DUMMY',2)]
+let bestCar = cars[0]
+const traffic = [ new Car(road.getLaneCenter(1),-100,30,50, 'DUMMY',2),
+                new Car(road.getLaneCenter(0),-300,30,50, 'DUMMY',2),
+                new Car(road.getLaneCenter(2),-300,30,50, 'DUMMY',2),
+                new Car(road.getLaneCenter(0),-1000,30,50, 'DUMMY',2),
+                new Car(road.getLaneCenter(0),-500,30,50, 'DUMMY',2),
+                new Car(road.getLaneCenter(1),-500,30,50, 'DUMMY',2),
+                new Car(road.getLaneCenter(2),-700,30,50, 'DUMMY',2)]
 
+
+if(localStorage.getItem('bestBrain')){
+    for(let i=0; i<cars.length; i++){
+        cars[i].brain=JSON.parse(
+            localStorage.getItem('bestBrain')
+        )
+        if(i!=0){
+            NeuralNetwork.mutate(cars[i].brain, 0.25)
+
+        }
+    }
+
+}
 animate()
+
+function saveCar(){
+    localStorage.setItem('bestBrain', JSON.stringify(bestCar.brain))
+}
+
+function discard(){
+    localStorage.removeItem('bestBrain')
+}
 function generateCars(N){
     const cars = [];
     for(i = 1; i<=N; i++){
@@ -29,7 +57,7 @@ function animate(time){
         cars[i].update(road.borders, traffic);
     }
 
-    const bestCar  = cars.find(
+    bestCar  = cars.find(
         c=>c.y==Math.min(
             ...cars.map(c=>c.y)
         )
