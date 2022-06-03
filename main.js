@@ -12,19 +12,19 @@ const road = new Road(carCanvas.width/2, carCanvas.width*0.9)
 const N = 100;
 const cars = generateCars(N);
 let bestCar = cars[0]
-const traffic = [ new Car(road.getLaneCenter(1),-100,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(0),-300,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(2),-300,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(0),-1000,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(1),-500,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(1),-750,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(2),-700,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(2),-500,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(2),-1500,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(2),-1750,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(1),-25000,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(2),-2300,30,50, 'DUMMY',2),
-                new Car(road.getLaneCenter(0),-2500,30,50, 'DUMMY',2),
+const traffic = [ new Car(road.getLaneCenter(1),-100,30,50, 'DUMMY',2, getRandomColor()),
+                new Car(road.getLaneCenter(0),-300,30,50, 'DUMMY',2, getRandomColor()),
+                new Car(road.getLaneCenter(2),-300,30,50, 'DUMMY',2, getRandomColor()),
+                new Car(road.getLaneCenter(0),-1000,30,50, 'DUMMY',2,getRandomColor()),
+                new Car(road.getLaneCenter(1),-500,30,50, 'DUMMY',2,getRandomColor()),
+                new Car(road.getLaneCenter(1),-750,30,50, 'DUMMY',2, getRandomColor()),
+                new Car(road.getLaneCenter(2),-700,30,50, 'DUMMY',2, getRandomColor()),
+                new Car(road.getLaneCenter(2),-500,30,50, 'DUMMY',2, getRandomColor()),
+                new Car(road.getLaneCenter(2),-1500,30,50, 'DUMMY',2, getRandomColor()),
+                new Car(road.getLaneCenter(2),-1750,30,50, 'DUMMY',2, getRandomColor()),
+                new Car(road.getLaneCenter(1),-25000,30,50, 'DUMMY',2, getRandomColor()),
+                new Car(road.getLaneCenter(2),-2300,30,50, 'DUMMY',2, getRandomColor()),
+                new Car(road.getLaneCenter(0),-2500,30,50, 'DUMMY',2, getRandomColor()),
 ]
 
 
