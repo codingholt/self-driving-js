@@ -13,14 +13,6 @@ const N = 250;
 const cars = generateCars(N);
 let bestCar = cars[0]
 const traffic = generateTraffic(100);
-
-if(localStorage.getItem('traffic')){
-    for(let i=0; i<traffic.length; i++){
-        traffic[i]=JSON.parse(
-            localStorage.getItem('traffic')
-        )
-    }
-}
 if(localStorage.getItem('bestBrain')){
     for(let i=0; i<cars.length; i++){
         cars[i].brain=JSON.parse(
@@ -55,12 +47,12 @@ function generateTraffic(n){
         traffic.push(new Car(road.getLaneCenter(Math.floor(Math.random()*3)),-Math.random()*25000,30,50,'DUMMY',2, getRandomColor()))
     }
 
-    localStorage.setItem('traffic', JSON.stringify(traffic))
+    return traffic;
 }
 function animate(time){
-    // for(let i=0; i < traffic.length; i++){
-    //     traffic[i].update(road.borders, [])
-    // }
+    for(let i=0; i < traffic.length; i++){
+        traffic[i].update(road.borders, [])
+    }
     for(let i = 0; i<cars.length; i++){
         cars[i].update(road.borders, traffic);
     }
