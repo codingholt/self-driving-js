@@ -2,8 +2,7 @@ const carCanvas = document.getElementById('carCanvas')
 carCanvas.width = 250
 
 const networkCanvas = document.getElementById('networkCanvas')
-
-
+const mutationSize = document.getElementById('mutationSize')
 const carCtx = carCanvas.getContext('2d')
 const networkCtx = networkCanvas.getContext('2d')
 
@@ -15,9 +14,9 @@ let bestCar = cars[0]
 let traffic = generateTraffic(100);
 
 if(localStorage.getItem('traffic')){
-    for(i = 0; i< traffic.length; i++){
-        traffic[i].Car = JSON.parse(localStorage.getItem('traffic'))
-    }
+    
+        traffic = JSON.parse(localStorage.getItem('traffic'))
+    
 }
 
 if(localStorage.getItem('bestBrain')){
@@ -26,18 +25,31 @@ if(localStorage.getItem('bestBrain')){
             localStorage.getItem('bestBrain')
         )
         if(i!=0){
-            NeuralNetwork.mutate(cars[i].brain, 0.15)
+            NeuralNetwork.mutate(cars[i].brain, mutationSize)
 
         }
     }
 
 }
-animate()
-function saveTraffic(){
+animate();
 
-    localStorage.setItem('traffic', JSON.stringify(traffic))
+function initMutate(){
 
+    for(let i=0; i<cars.length; i++){
+        cars[i].brain=JSON.parse(
+            localStorage.getItem('bestBrain')
+        )
+        if(i!=0){
+            NeuralNetwork.mutate(cars[i].brain, mutationSize.value)
+
+        }
+    }
 }
+
+function saveTraffic(){
+    localStorage.setItem('traffic', JSON.stringify(traffic))
+}
+
 function saveCar(){
     localStorage.setItem('bestBrain', JSON.stringify(bestCar.brain))
 }

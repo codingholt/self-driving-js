@@ -16,13 +16,19 @@
         <button onclick='discard()'>
             Delete🗑️
         </button>
-        <button onclick="saveTraffic()">
+        <!-- <button onclick="saveTraffic()">
             Save traffic🚗
         </button> -->
-       <button onclick="deleteTraffic()">
+       <!-- <button onclick="deleteTraffic()">
             Delete traffic🚗
-        </button>
-        
+        </button> -->
+        <button>
+        <label>Mutation 🧬 amount</label>
+        <input id="mutationSize" type="number" placeholder="0.1" step="0.1" max="1">
+    </button>
+    <button onclick="initMutate()">
+        Mutate🧬
+    </button>
     </div>
     <canvas id="networkCanvas"></canvas>
     <script src="vizualizer.js"></script>
