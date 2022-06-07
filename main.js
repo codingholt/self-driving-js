@@ -2,31 +2,22 @@ const carCanvas = document.getElementById('carCanvas')
 carCanvas.width = 250
 
 const networkCanvas = document.getElementById('networkCanvas')
-
-
+const mutationSize = document.getElementById('mutationSize')
 const carCtx = carCanvas.getContext('2d')
 const networkCtx = networkCanvas.getContext('2d')
 
 const road = new Road(carCanvas.width/2, carCanvas.width*0.9)
 //make car
-const N = 100;
+const N = 250;
 const cars = generateCars(N);
 let bestCar = cars[0]
-const traffic = [ new Car(road.getLaneCenter(1),-100,30,50, 'DUMMY',2, getRandomColor()),
-                new Car(road.getLaneCenter(0),-300,30,50, 'DUMMY',2, getRandomColor()),
-                new Car(road.getLaneCenter(2),-300,30,50, 'DUMMY',2, getRandomColor()),
-                new Car(road.getLaneCenter(0),-1000,30,50, 'DUMMY',2,getRandomColor()),
-                new Car(road.getLaneCenter(1),-500,30,50, 'DUMMY',2,getRandomColor()),
-                new Car(road.getLaneCenter(1),-750,30,50, 'DUMMY',2, getRandomColor()),
-                new Car(road.getLaneCenter(2),-700,30,50, 'DUMMY',2, getRandomColor()),
-                new Car(road.getLaneCenter(2),-500,30,50, 'DUMMY',2, getRandomColor()),
-                new Car(road.getLaneCenter(2),-1500,30,50, 'DUMMY',2, getRandomColor()),
-                new Car(road.getLaneCenter(2),-1750,30,50, 'DUMMY',2, getRandomColor()),
-                new Car(road.getLaneCenter(1),-25000,30,50, 'DUMMY',2, getRandomColor()),
-                new Car(road.getLaneCenter(2),-2300,30,50, 'DUMMY',2, getRandomColor()),
-                new Car(road.getLaneCenter(0),-2500,30,50, 'DUMMY',2, getRandomColor()),
-]
+let traffic = generateTraffic(100);
 
+if(localStorage.getItem('traffic')){
+    
+        traffic = JSON.parse(localStorage.getItem('traffic'))
+    
+}
 
 if(localStorage.getItem('bestBrain')){
     for(let i=0; i<cars.length; i++){
@@ -34,13 +25,30 @@ if(localStorage.getItem('bestBrain')){
             localStorage.getItem('bestBrain')
         )
         if(i!=0){
-            NeuralNetwork.mutate(cars[i].brain, 0.25)
+            NeuralNetwork.mutate(cars[i].brain, mutationSize)
 
         }
     }
 
 }
-animate()
+animate();
+
+function initMutate(){
+
+    for(let i=0; i<cars.length; i++){
+        cars[i].brain=JSON.parse(
+            localStorage.getItem('bestBrain')
+        )
+        if(i!=0){
+            NeuralNetwork.mutate(cars[i].brain, mutationSize.value)
+
+        }
+    }
+}
+
+function saveTraffic(){
+    localStorage.setItem('traffic', JSON.stringify(traffic))
+}
 
 function saveCar(){
     localStorage.setItem('bestBrain', JSON.stringify(bestCar.brain))
@@ -49,12 +57,24 @@ function saveCar(){
 function discard(){
     localStorage.removeItem('bestBrain')
 }
+function deleteTraffic(){
+    localStorage.removeItem('traffic')
+
+}
 function generateCars(N){
     const cars = [];
     for(i = 1; i<=N; i++){
         cars.push(new Car(road.getLaneCenter(1), 100, 30, 50, 'AI'));
     }
     return cars
+}
+function generateTraffic(n){
+    const traffic = [];
+    for(i = 0; i<n; i++){
+        traffic.push(new Car(road.getLaneCenter(Math.floor(Math.random()*3)),-Math.random()*25000,30,50,'DUMMY',2, getRandomColor()))
+    }
+
+    return traffic;
 }
 function animate(time){
     for(let i=0; i < traffic.length; i++){
@@ -93,3 +113,4 @@ function animate(time){
     Visualizer.drawNetwork(networkCtx, bestCar.brain)
     requestAnimationFrame(animate)
 }
+
